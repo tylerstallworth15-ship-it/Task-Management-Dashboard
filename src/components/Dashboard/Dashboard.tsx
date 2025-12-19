@@ -22,7 +22,7 @@ const Dashboard = () => {
     }, []);
 
 useEffect(() => {
-    savageTasks(tasks);
+    saveTasks(tasks);
 }, [tasks]);
 
 const handleAddTask = (data: TaskFormData) => {
@@ -60,6 +60,32 @@ const handleMoveUp = (id: string) => {
         const temp = newTasks[index -1];
         newTasks[index - 1] = newTasks[index];
         newTasks[index] = temp;
+
+        return newTasks;
     }
-        
-}
+};
+
+const visibleTasks = sortTasks(filterTasks(tasks, filters));
+return (   
+  <div className={`theme === 'light' ? 'bg-white text-black p-4' : 'bg-gray-900 text-white p-4'`}>
+    <h1 className="text-2xl font-bold mb-4">Task Dashboard</h1>
+    <button 
+      className="mb-4 px-3 py-1 border rounded"
+      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+    >
+        Toggle Theme
+    </button>
+    <TasksForm onSubmit={handleAddTask} />
+    <TaskFilter filters={filters} onChange={setFilters} />
+    <TaskList 
+      tasks={visibleTasks}
+        onToggleStatus={handleToggleStatus}
+        onDelete={handleDelete}
+        onMoveUp={handleMoveUp}
+        onMoveDown={handleMoveDown}
+      />
+    </div>
+  );
+};
+
+export default Dashboard;
