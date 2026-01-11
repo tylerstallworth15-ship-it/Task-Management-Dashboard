@@ -40,8 +40,8 @@ const TaskForm = ({ onSubmit, initialData }: TaskFormProps) => {
     setErrors([]);
   };
   return (
-    <form onSubmit={handleSubmit} className="border p-4 mb-4 rounded">
-      <h2 className="text-xl font-bold mb-2">Add Task</h2>
+    <form onSubmit={handleSubmit} className="space-y-3">
+      <div className="flex flex-col gap-3">
 
       {errors.length > 0 && (
         <div className="mb-2 text-red-500">
@@ -56,7 +56,7 @@ const TaskForm = ({ onSubmit, initialData }: TaskFormProps) => {
         value={formData.title}
         onChange={handleChange}
         placeholder="Task title"
-        className="border p-2 w-full mb-2"
+        className="border p-2 w-full mb-2 rounded text-black"
       />
 
       <textarea
@@ -64,14 +64,15 @@ const TaskForm = ({ onSubmit, initialData }: TaskFormProps) => {
         value={formData.description}
         onChange={handleChange}
         placeholder="Task description"
-        className="border p-2 w-full mb-2"
+        className="border p-2 w-full mb-2 rounded text-black"
+        rows={3}
       />
 
       <select
         name="status"
         value={formData.status}
         onChange={handleChange}
-        className="border p-2 w-full mb-2"
+        className="border p-2 w-full mb-2 rounded text-black"
       >
         <option value="todo">To Do</option>
         <option value="in-progress">In Progress</option>
@@ -82,7 +83,7 @@ const TaskForm = ({ onSubmit, initialData }: TaskFormProps) => {
         name="priority"
         value={formData.priority}
         onChange={handleChange}
-        className="border p-2 w-full mb-2"
+        className="border p-2 w-full mb-2 rounded text-black"
       >
         <option value="low">Low</option>
         <option value="medium">Medium</option>
@@ -94,12 +95,15 @@ const TaskForm = ({ onSubmit, initialData }: TaskFormProps) => {
         name="dueDate"
         value={formData.dueDate}
         onChange={handleChange}
-        className="border p-2 w-full mb-2"
+        className="border p-2 w-full mb-2 rounded text-black"
       />
+    </div>
 
-        <button className='bg-blue-500 text-white p-2 rounded'>Add Task</button>
+    <button className="bg-[6d28d9] text-white px-4 py-2 rounded hover:bg-[5b21b6] transition">
+          Add Task
+        </button>
       </form>
-   );
+    );
 };
 
 export default TaskForm;

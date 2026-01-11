@@ -82,23 +82,48 @@ const handleMoveDown = (id: string) => {
 
 const visibleTasks = sortTasks(filterTasks(tasks, filters));
 return (   
-  <div className={theme === 'light' ? 'bg-white text-black p-4' : 'bg-gray-900 text-white p-4'}>
-    <h1 className="text-2xl font-bold mb-4">Task Dashboard</h1>
-    <button 
-      className="mb-4 px-3 py-1 border rounded"
-      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+  <div 
+    className={
+      theme === 'light' 
+        ? 'min-h-screen bg-[#f2f2f2] text-black p-6' 
+        : 'min-h-screen bg-[#1a0b2e] text-white p-6'
+      }
     >
-        Toggle Theme
-    </button>
-    <TaskForm onSubmit={handleAddTask} />
-    <TaskFilter filters={filters} onChange={setFilters} />
-    <TaskList 
-      tasks={visibleTasks}
-        onToggleStatus={handleToggleStatus}
-        onDelete={handleDeleteTask}
-        onMoveUp={handleMoveUp}
-        onMoveDown={handleMoveDown}
-      />
+      <div className="max-w-3xl mx-auto space-y-6">
+
+        <div className="flex justify-between items-center">
+          <h1 className="text-3xl font-bold">Task Dashboard</h1>
+          <button 
+            className={
+              "px-4 py-2 rounded font-medium transition shadow " +
+              (theme === 'light'  
+                ? "bg-[#6d28d9] text-white hover:bg-[#5b21b6]"
+                : "bg-[#a78bfa] text-black hover:bg-[#c4b5fd]")
+              }
+              onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+          >
+            Toggle Theme
+          </button>
+        </div>
+
+        <div className='rounded-lg p-4 shadow-md bg-card'>
+            <TaskForm onSubmit={handleAddTask} />
+        </div>
+
+        <div className="rounded-lg p-4 shadow-md bg-card">
+          <TaskFilter filters={filters} onChange={setFilters} />
+        </div>
+
+        <div className="rounded-lg p-4 shadow-md bg-card">
+          <TaskList 
+            tasks={visibleTasks}
+            onToggleStatus={handleToggleStatus}
+            onDelete={handleDeleteTask}
+            onMoveUp={handleMoveUp}
+            onMoveDown={handleMoveDown}
+          />
+        </div>
+      </div>
     </div>
   );
 };

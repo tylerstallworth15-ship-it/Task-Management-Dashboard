@@ -8,13 +8,14 @@ const TaskFilter = ({ filters, onChange }: TaskFilterProps) => {
         <div className='border p-4 mb-4 rounded'>
           <h2 className='text-xl font-semibold mb-2'>Filters</h2>
 
+        <div className="flex flex-col gap-3">
           <select
             name="status"
             value={filters.status}
             onChange={handleChange}
-            className="border p-2 w-full mb-2"
+            className="border p-2 w-full rounded text-black"
           >
-            <option value="">All Statuses</option>
+            <option value="all">All Statuses</option>
             <option value="todo">To Do</option>
             <option value="in-progress">In Progress</option>
             <option value="done">Done</option>
@@ -24,9 +25,9 @@ const TaskFilter = ({ filters, onChange }: TaskFilterProps) => {
             name="priority"
             value={filters.priority}
             onChange={handleChange}
-            className="border p-2 w-full mb-2"
+            className="border p-2 w-full rounded text-black"
           >
-            <option value="">All Priorities</option>
+            <option value="all">All Priorities</option>
             <option value="low">Low</option>
             <option value="medium">Medium</option>
             <option value="high">High</option>
@@ -36,9 +37,11 @@ const TaskFilter = ({ filters, onChange }: TaskFilterProps) => {
             name="searchText"
             value={filters.searchText}
             onChange={handleChange}
-            className="border p-2 w-full"
+            placeholder="Search tasks..."
+            className="border p-2 w-full rounded text-black"
           />
         </div>
+      </div>
       );
     };
 

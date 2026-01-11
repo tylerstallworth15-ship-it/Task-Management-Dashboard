@@ -9,15 +9,16 @@ export function filterTasks(tasks: Task[], filters: FilterOptions): Task[] {
         filters.priority === 'all' || task.priority === filters.priority;
 
         const matchesSearch = 
-        task.title.toLowerCase().includes(filters.searchText.toLowerCase()) || 
-        task.description.toLowerCase().includes(filters.searchText.toLowerCase());
+          filters.searchText.trim() === '' ||
+            task.title.toLowerCase().includes(filters.searchText.toLowerCase()) ||
+            task.description.toLowerCase().includes(filters.searchText.toLowerCase());
 
         return matchesStatus && matchesPriority && matchesSearch;
     });
 }   
 
 export function sortTasks(tasks: Task[]): Task[] {
-    return [...tasks].sort((a, b) => a.title.localeCompare(b.title));
+    return [...tasks].sort((a, b) => a.createdAt.localeCompare(b.createdAt));
 }
 export function validateTaskFormData(data: TaskFormData): string[] {
     const errors: string[] = [];
@@ -37,16 +38,24 @@ export function validateTaskFormData(data: TaskFormData): string[] {
     return errors;
 }
 
+const STORAGE_KEY = 'tasks';
+
 export function saveTasks(tasks: Task[]): void {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
 }
 
 export function formatDate(dateString: string): string {
+    if (!dateString) return '';
     const date = new Date(dateString);
-    return date.toLocaleDateString();
+    return isNaN(date.getTime()) ? '' : date.toLocaleDateString();
 }
 
 export function loadTasks(): Task[] {
-    const stored = localStorage.getItem('tasks');
-    return stored ? JSON.parse(stored) : [];
+    const stored = localStorage.getItem(STORAGE_KEY);
+
+    try {
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
 }

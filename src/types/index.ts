@@ -13,8 +13,8 @@ export interface Task {
 }
 
 export interface FilterOptions {
-  status: string;
-  priority: string;
+  status: 'all' | TaskStatus;
+  priority: 'all' | TaskPriority;
   searchText: string;
 }
 
@@ -38,7 +38,7 @@ export interface TaskFilterProps {
 
 export interface TaskItemProps {
     task: Task;
-    onToggleStatus: (Id: string) => void;
+    onToggleStatus: (id: string) => void;
     onDelete: (id: string) => void;
     onMoveUp: (id: string) => void;
     onMoveDown: (id: string) => void;
@@ -52,6 +52,3 @@ export interface TaskListProps {
     onMoveDown: (id: string) => void;
 }
 
-export interface DashBoardProps {
-    initialTheme: 'light' | 'dark';
-}
