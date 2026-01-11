@@ -1,7 +1,7 @@
-import { Task, FilterOptions, TaskFormData } from '../types';
+import type { Task, FilterOptions, TaskFormData } from '../types';
 
 export function filterTasks(tasks: Task[], filters: FilterOptions): Task[] {
-    return tasks.filter(task) => {
+    return tasks.filter((task) => {
         const matchesStatus = 
         filters.status === 'all' || task.status === filters.status;
 
@@ -9,8 +9,8 @@ export function filterTasks(tasks: Task[], filters: FilterOptions): Task[] {
         filters.priority === 'all' || task.priority === filters.priority;
 
         const matchesSearch = 
-        task.title.toLowerCase().includes(filters.search.toLowerCase()) || 
-        task.description.toLowerCase().includes(filters.search.toLowerCase());
+        task.title.toLowerCase().includes(filters.searchText.toLowerCase()) || 
+        task.description.toLowerCase().includes(filters.searchText.toLowerCase());
 
         return matchesStatus && matchesPriority && matchesSearch;
     });
@@ -26,7 +26,7 @@ export function validateTaskFormData(data: TaskFormData): string[] {
         errors.push('Title is required');
     }
 
-    if (data.description.trim()) {
+    if (!data.description.trim()) {
         errors.push('Description is required');
     }
     
@@ -37,6 +37,10 @@ export function validateTaskFormData(data: TaskFormData): string[] {
     return errors;
 }
 
+export function saveTasks(tasks: Task[]): void {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
 export function formatDate(dateString: string): string {
     const date = new Date(dateString);
     return date.toLocaleDateString();
@@ -45,3 +49,4 @@ export function formatDate(dateString: string): string {
 export function loadTasks(): Task[] {
     const stored = localStorage.getItem('tasks');
     return stored ? JSON.parse(stored) : [];
+}

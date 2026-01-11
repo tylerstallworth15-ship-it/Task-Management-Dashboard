@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TaskFormData, TaskFormProps } from '../../types';
+import type { TaskFormData, TaskFormProps } from '../../types';
 import { validateTaskFormData } from '../../utils/taskUtils';
 
 const TaskForm = ({ onSubmit, initialData }: TaskFormProps) => {
@@ -7,14 +7,15 @@ const TaskForm = ({ onSubmit, initialData }: TaskFormProps) => {
     initialData || {
         title: '',
         description: '',
-        status: ' todo ',
+        status: 'todo',
         priority: 'medium',
         dueDate: '', 
     }
   );
 
   const [errors, setErrors] = useState<string[]>([]);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 

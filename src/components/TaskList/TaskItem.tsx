@@ -1,5 +1,5 @@
-import { TaskItemProps } from "../../types";
-import { formatDate } from "../../taskUtils";
+import type { TaskItemProps } from "../../types";
+import { formatDate } from "../../utils/taskUtils";
 
 const TaskItem = ({ 
     task,
@@ -9,7 +9,7 @@ const TaskItem = ({
     onMoveDown
 }: TaskItemProps) => {
     return (
-        <div className="border p-3 rounded mb-2 flex justify-between imtems-center">
+        <div className="border p-3 rounded mb-2 flex justify-between items-center">
           <div>
             <h3 className="font-semibold">{task.title}</h3>
             <p className="text-sm">{task.description}</p>

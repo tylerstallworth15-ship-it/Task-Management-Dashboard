@@ -1,4 +1,4 @@
-import { TaskFilterProps } from "../../types";
+import type { TaskFilterProps } from "../../types";
 
 const TaskFilter = ({ filters, onChange }: TaskFilterProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {

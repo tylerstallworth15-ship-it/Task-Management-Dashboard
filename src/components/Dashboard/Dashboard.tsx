@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react';
-import { Task, TaskFormData, FilterOptions } from './types'; 
+import type { Task, TaskFormData, FilterOptions } from '../../types'; 
 import { filterTasks, sortTasks, saveTasks, loadTasks } from '../../utils/taskUtils';
 
-import TasksForm from "../TasksForm/TasksForm"; 
+import TaskForm from "../TaskForm/TaskForm"; 
 import TaskFilter from "../TaskFilter/TaskFilter";
 import TaskList from "../TaskList/TaskList";
 
@@ -16,8 +16,9 @@ const Dashboard = () => {
 
     const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
-    useEffect(() => {
+useEffect(() => {
       const stored = loadTasks();
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTasks(stored);
     }, []);
 
@@ -42,10 +43,10 @@ const handleAddTask = (data: TaskFormData) => {
 const handleToggleStatus = (id: string) => {
     setTasks((prev) => 
         prev.map((task) => 
-            task.id === id ? { ...task, status: task.status === 'todo' ? 'pending' : task.status === 'pending' ? 'completed' : 'todo' } : task
+            task.id === id ? { ...task, status: task.status === 'todo' ? 'in-progress' : task.status === 'in-progress' ? 'done' : 'todo' } : task
         )
     );
-}
+};
 
 const handleDeleteTask = (id: string) => {
     setTasks((prev) => prev.filter((task) => task.id !== id));
@@ -62,12 +63,26 @@ const handleMoveUp = (id: string) => {
         newTasks[index] = temp;
 
         return newTasks;
-    }
+    });
+};
+
+const handleMoveDown = (id: string) => {
+    setTasks((prev) => {
+        const index = prev.findIndex((t) => t.id === id);
+        if (index === -1 || index === prev.length - 1) return prev;
+
+        const newTasks = [...prev];
+        const temp = newTasks[index + 1];
+        newTasks[index + 1] = newTasks[index];
+        newTasks[index] = temp;
+
+        return newTasks;
+    });
 };
 
 const visibleTasks = sortTasks(filterTasks(tasks, filters));
 return (   
-  <div className={`theme === 'light' ? 'bg-white text-black p-4' : 'bg-gray-900 text-white p-4'`}>
+  <div className={theme === 'light' ? 'bg-white text-black p-4' : 'bg-gray-900 text-white p-4'}>
     <h1 className="text-2xl font-bold mb-4">Task Dashboard</h1>
     <button 
       className="mb-4 px-3 py-1 border rounded"
@@ -75,12 +90,12 @@ return (
     >
         Toggle Theme
     </button>
-    <TasksForm onSubmit={handleAddTask} />
+    <TaskForm onSubmit={handleAddTask} />
     <TaskFilter filters={filters} onChange={setFilters} />
     <TaskList 
       tasks={visibleTasks}
         onToggleStatus={handleToggleStatus}
-        onDelete={handleDelete}
+        onDelete={handleDeleteTask}
         onMoveUp={handleMoveUp}
         onMoveDown={handleMoveDown}
       />

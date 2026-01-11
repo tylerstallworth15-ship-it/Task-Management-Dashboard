@@ -1,4 +1,4 @@
-import { TaskListProps } from '../../types';
+import type { TaskListProps } from '../../types';
 import TaskItem from './TaskItem';
 
 const TaskList = ({ tasks, onToggleStatus, onDelete, onMoveUp, onMoveDown, }: TaskListProps) => {
